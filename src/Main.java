@@ -12,10 +12,14 @@ public class Main {
         System.out.printf("Do you want to start a (S)erver or (C)lient? ");
         String s = scanner.nextLine();
 
-        if(s == "S")
+        System.out.printf("User entered: " + s + '\n');
+
+        if(s.equals("S"))
             InitializeServer();
-        else if(s == "C")
+        else if(s.equals("C"))
             InitializeClient();
+        else
+            System.out.printf("Couldn't understand the given command... ");
 
 
     }
