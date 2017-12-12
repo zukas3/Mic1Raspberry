@@ -21,37 +21,24 @@ public class WindowUI extends JFrame implements ActionListener
 
         setIconImage(icon);
 
+        setResizable(false);
+        setSize(400, 350);
+        setVisible(true);
+        setLayout(null);
+
         buttons();
         TextField();
 
         add(b1);
+        add(conn);
+        add(con);
+        add(t2);
+        add(t1);
+        add(files);
+        files.setVisible(true);
 
-        //add(b);
-        setSize(400, 350);
-        setVisible(true);
 
-        GridBagLayout layout = new GridBagLayout();
-        setLayout(layout);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill= GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(con, gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        add(conn, gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        add(b1, gbc);
-        gbc.gridx= 0;
-        gbc.gridy = 3;
-        add(files , gbc);
-        gbc.gridx=0;
-        gbc.gridy=4;
-        add(t1, gbc);
-        gbc.gridx = 1;
-        gbc.gridy =4;
-        add(t2, gbc);
+
 
 
 
@@ -69,7 +56,7 @@ public class WindowUI extends JFrame implements ActionListener
         b.addActionListener(this);*/
 
         conn = new JButton("Connect");
-        conn.setSize(20,30);
+        conn.setBounds(240,20,100,30);
         conn.setVisible(true);
     }
 
@@ -82,8 +69,7 @@ public class WindowUI extends JFrame implements ActionListener
         con.setBounds(10,20,200,30);
 
         files = new JTextField();
-        files.setName("Loaded files");
-        files.setBounds(30,100, 300,60);
+        files.setBounds(12,100,300,60);
         files.setEditable(false);
 
         t1= new JTextField();
