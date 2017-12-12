@@ -20,8 +20,6 @@ public class Main {
             InitializeClient();
         else
             System.out.printf("Couldn't understand the given command... ");
-
-
     }
 
     public static void InitializeServer()

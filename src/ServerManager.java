@@ -4,16 +4,25 @@ import java.net.*;
 public class ServerManager
 {
     ServerSocket serverSocket;
-    Socket clientSocket;
+    Socket socket;
+
+    DataInputStream in;
+    DataOutputStream out;
 
     public ServerManager(int port)
     {
         try
         {
             serverSocket = new ServerSocket(port); //Initial socket
-            clientSocket = serverSocket.accept(); //Waits for client to connect
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true); //Output
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //Input
+            socket = serverSocket.accept(); //Waits for client to connect
+
+            System.out.printf("New Client has connected with the IP: " + socket.getLocalSocketAddress());
+
+            OutputStream outToServer = socket.getOutputStream(); //Output
+            out = new DataOutputStream(outToServer);
+
+            InputStream inFromServer = socket.getInputStream(); //Input
+            in = new DataInputStream(inFromServer);
         }
         catch(Exception e)
         {

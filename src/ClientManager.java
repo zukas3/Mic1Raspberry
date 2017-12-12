@@ -20,7 +20,6 @@ public class ClientManager
             InputStream inFromServer = socket.getInputStream();
             in = new DataInputStream(inFromServer);
 
-            System.out.println("Server says " + in.readUTF());
         } catch (IOException e) {
             e.printStackTrace();
         }
