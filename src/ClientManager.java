@@ -1,11 +1,14 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class ClientManager
 {
     Socket socket;
     DataInputStream in;
     DataOutputStream out;
+
+    Scanner scanner = new Scanner(System.in);
 
     public ClientManager(String address, int port) {
         try {
@@ -25,6 +28,26 @@ public class ClientManager
         }
     }
 
+    public void StartBuffer()
+    {
+        //Loops until meets a break
+        while(true)
+        {
+            String s = scanner.nextLine();
+            try {
+                SendUTF(s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void SendUTF(String message) throws IOException
+    {
+        out.writeInt(MESSAGE_TYPE.UTF.getValue());
+        out.writeBytes(message);
+    }
+
     public void SendFile(String filePath) throws IOException {
 
         FileInputStream fis = new FileInputStream(filePath);
@@ -34,6 +57,8 @@ public class ClientManager
             out.write(buffer);
         }
     }
+
+
 
     public void CloseConnection() throws IOException
     {
