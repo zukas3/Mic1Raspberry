@@ -44,6 +44,7 @@ public class ClientManager
 
     public void SendUTF(String message) throws IOException
     {
+        System.out.println("Sending UTF message: " + message);
         out.writeInt(MESSAGE_TYPE.UTF.getValue());
         out.writeBytes(message);
     }

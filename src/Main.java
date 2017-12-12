@@ -10,20 +10,32 @@ public class Main {
 
     public static void main(String[] args) {
 
-        WindowUI windowUI = new WindowUI();
-        System.out.printf("Do you want to start a (S)erver or (C)lient? ");
-        String s = scanner.nextLine();
+        if(args.length > 1)
+        {
+            int port = Integer.parseInt(args[1]);
 
-        System.out.printf("User entered: " + s + '\n');
+            if(args[0].equals("server"))
+                InitializeServer(port);
+        }
+        else {
 
-        if(s.equals("S"))
-            InitializeServer();
-        else if(s.equals("C"))
-            InitializeClient();
-        else
-            System.out.printf("Couldn't understand the given command... ");
+            WindowUI windowUI = new WindowUI();
+            System.out.printf("Do you want to start a (S)erver or (C)lient? ");
+            String s = scanner.nextLine();
+
+            System.out.printf("User entered: " + s + '\n');
+
+            if (s.equals("S"))
+                InitializeServer();
+            else if (s.equals("C"))
+                InitializeClient();
+            else
+                System.out.printf("Couldn't understand the given command... ");
+
+        }
     }
 
+    //Initialize without initial port
     public static void InitializeServer()
     {
         System.out.printf("Enter a port you want to use for the server ");
@@ -32,6 +44,17 @@ public class Main {
         int port = Integer.parseInt(s);
 
         //Start server and start listening
+        serverManager = new ServerManager(port);
+        try {
+            serverManager.StartListening();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //Initialize with a port
+    public static void InitializeServer(int port)
+    {
         serverManager = new ServerManager(port);
         try {
             serverManager.StartListening();

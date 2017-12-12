@@ -37,7 +37,7 @@ public class ServerManager
         //This part runs until it's told to break
         while(true)
         {
-            while (in.available() > 0) //We have some bytes to read
+            if (in.available() > 0) //We have some bytes to read
             {
                 int num = in.readInt();
                 MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);
@@ -61,6 +61,10 @@ public class ServerManager
                     e.printStackTrace();
                 }
                 break;
+
+                default:
+                    System.out.println("Couldn't find a situation for this message");
+                    break;
         }
     }
 
