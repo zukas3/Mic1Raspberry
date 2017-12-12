@@ -11,6 +11,7 @@ public class Main {
 
         System.out.printf("Do you want to start a (S)erver or (C)lient? ");
         String s = scanner.nextLine();
+        WindowUI windowUI = new WindowUI();
 
         System.out.printf("User entered: " + s + '\n');
 
@@ -40,6 +41,9 @@ public class Main {
         String s = scanner.nextLine();
         String[] split = s.split(":");
         clientManager = new ClientManager(split[0],Integer.parseInt(split[1]));
+    }
+    public static void CreateUI(){
+        WindowUI windowUI = new WindowUI();
     }
 }
 
