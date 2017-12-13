@@ -21,22 +21,22 @@ public class WindowUI extends JFrame implements ActionListener
 
         setIconImage(icon);
 
-        setResizable(false);
-        setSize(400, 350);
-        setVisible(true);
-        setLayout(null);
-
         buttons();
         TextField();
 
         add(b1);
-        add(conn);
-        add(con);
+
+
         add(t2);
         add(t1);
         add(files);
         files.setVisible(true);
 
+        getContentPane().setLayout(null);
+        setResizable(false);
+        setSize(400, 330);
+        setVisible(true);
+        setLayout(null);
 
 
 
@@ -47,7 +47,7 @@ public class WindowUI extends JFrame implements ActionListener
     {
         b1 = new JButton("Load files");
         b1.addActionListener(this);
-        b1.setBounds(240,60,100,30);
+        b1.setBounds(30,20,100,30);
         b1.setVisible(true);
 
         /*b = new JButton();
@@ -55,9 +55,7 @@ public class WindowUI extends JFrame implements ActionListener
         b.setBounds(50, 115, 70, 30);
         b.addActionListener(this);*/
 
-        conn = new JButton("Connect");
-        conn.setBounds(240,20,100,30);
-        conn.setVisible(true);
+
     }
 
 
@@ -65,17 +63,17 @@ public class WindowUI extends JFrame implements ActionListener
 
     public void TextField()
     {
-        con = new JTextField("Connect to...");
-        con.setBounds(10,20,200,30);
+
 
         files = new JTextField();
-        files.setBounds(12,100,300,60);
+        files.setBounds(30,80,320,70);
         files.setEditable(false);
 
         t1= new JTextField();
-        t1.setBounds(30,200,150,60);
+        t1.setBounds(30,180,150,60);
         t2 = new JTextField();
-        t2.setBounds(200,200,150,60);
+
+        t2.setBounds(200,180,150,60);
         t2.setEditable(false);
     }
 
