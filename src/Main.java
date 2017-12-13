@@ -16,10 +16,9 @@ public class Main {
 
             if(args[0].equals("server"))
                 InitializeServer(port);
-        }
-        else {
 
-            WindowUI windowUI = new WindowUI();
+        } else {
+
             System.out.printf("Do you want to start a (S)erver or (C)lient? ");
             String s = scanner.nextLine();
 

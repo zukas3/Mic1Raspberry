@@ -46,7 +46,7 @@ public class ClientManager
     {
         System.out.println("Sending UTF message: " + message);
         out.writeInt(MESSAGE_TYPE.UTF.getValue());
-        out.writeBytes(message);
+        out.writeUTF(message);
     }
 
     public void SendFile(String filePath) throws IOException {
