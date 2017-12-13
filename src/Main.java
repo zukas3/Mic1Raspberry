@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        ServerClient serverClient = new ServerClient();
         System.out.printf("Do you want to start a (S)erver or (C)lient? ");
         String s = scanner.nextLine();
         WindowUI windowUI = new WindowUI();
