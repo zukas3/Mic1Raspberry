@@ -14,6 +14,7 @@ public class ServerManager
         try
         {
             serverSocket = new ServerSocket(port); //Initial socket
+            System.out.printf("Waiting for a new client to connect..." + '\n');
             socket = serverSocket.accept(); //Waits for client to connect
 
             System.out.printf("New Client has connected with the IP: " + socket.getLocalSocketAddress() + '\n');
@@ -37,7 +38,7 @@ public class ServerManager
         //This part runs until it's told to break
         while(true)
         {
-            while (in.available() > 0) //We have some bytes to read
+            if (in.available() > 0) //We have some bytes to read
             {
                 int num = in.readInt();
                 MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);
@@ -54,13 +55,19 @@ public class ServerManager
             case ERROR:
                 System.out.println("Error happened while processing message");
                 break;
+
             case UTF:
                 try {
                     String s = in.readUTF();
+                    System.out.println(s);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
+
+                default:
+                    System.out.println("Couldn't find a situation for this type of message");
+                    break;
         }
     }
 
