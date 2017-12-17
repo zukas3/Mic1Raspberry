@@ -10,7 +10,8 @@ import java.awt.*;
 public class WindowUI extends JFrame implements ActionListener
 {
 
-    JTextField t1, t2, con, files;
+    JTextField t1, t2, con;
+    JTextArea files;
     JButton b,b1, conn;
 
     WindowUI()
@@ -23,6 +24,7 @@ public class WindowUI extends JFrame implements ActionListener
 
         buttons();
         TextField();
+        TextArea();
 
         add(b1);
 
@@ -65,9 +67,7 @@ public class WindowUI extends JFrame implements ActionListener
     {
 
 
-        files = new JTextField();
-        files.setBounds(30,80,320,70);
-        files.setEditable(false);
+
 
         t1= new JTextField();
         t1.setBounds(30,180,150,60);
@@ -77,6 +77,11 @@ public class WindowUI extends JFrame implements ActionListener
         t2.setEditable(false);
     }
 
+    public void TextArea()
+    {
+        files = new JTextArea();
+        files.setBounds(30,80,320,70);
+    }
 
 
 
@@ -94,11 +99,12 @@ public class WindowUI extends JFrame implements ActionListener
                 String s = fc.getSelectedFile().getAbsolutePath();
                 if(s.endsWith(".jas"))
                 {
-                    System.out.printf("Ok");
+                ServerClient serverClient = new ServerClient();
+
                 }
                 else
                 {
-                    System.out.printf("not");
+                    JOptionPane.showMessageDialog(this, "You must select '.jas' file.");
                 }
             }
         }

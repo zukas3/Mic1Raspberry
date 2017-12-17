@@ -15,7 +15,6 @@ public class ServerClient extends JFrame implements ActionListener
     ServerClient()
     {
         setTitle("Connecting window");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         Label();
         add(label);
@@ -84,12 +83,14 @@ public class ServerClient extends JFrame implements ActionListener
     {
         co  = new JButton("Connect");
         co.setBounds(220,80,90,30);
+        co.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e)
     {
 
-            if (server.isSelected() ) {
+            if (server.isSelected() )
+            {
                 ip.setEditable(false);
             }
             if (client.isSelected()) {
@@ -100,7 +101,4 @@ public class ServerClient extends JFrame implements ActionListener
 
     }
 
-
-    private class RadioGroup {
-    }
 }
