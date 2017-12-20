@@ -51,15 +51,16 @@ public class ClientManager
 
     public void SendFile(String filePath) throws IOException {
 
+        long fileSize = new File(filePath).length();
+
         FileInputStream fis = new FileInputStream(filePath);
         byte[] buffer = new byte[4096];
+        //out.writeLong();
 
         while (fis.read(buffer) > 0) {
             out.write(buffer);
         }
     }
-
-
 
     public void CloseConnection() throws IOException
     {

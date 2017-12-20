@@ -48,7 +48,7 @@ public class ServerManager
         }
     }
 
-    public void ProcessMessage(MESSAGE_TYPE type)
+    void ProcessMessage(MESSAGE_TYPE type)
     {
         switch (type)
         {
@@ -60,14 +60,39 @@ public class ServerManager
                 try {
                     String s = in.readUTF();
                     System.out.println(s);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (IOException e) { e.printStackTrace(); }
+                break;
+
+            case FILE_TRANSFER_START:
+                try {
+                    ReceiveFile();
+                } catch (IOException e){ e.printStackTrace(); }
                 break;
 
                 default:
                     System.out.println("Couldn't find a situation for this type of message");
                     break;
+        }
+    }
+
+    void ReceiveFile() throws IOException
+    {
+        long fileSize = in.readLong();
+        int totalRead = 0;
+        int read = 0;
+        int remaining = (int)fileSize;
+
+        byte[] buffer = new byte[4096];
+        //byte[] file = new byte[(int)fileSize]; Might try to reuse later
+
+        FileOutputStream fos = new FileOutputStream("transfered.dat");
+
+        while ((read = in.read(buffer, 0, Math.min(buffer.length, remaining))) > 0)
+        {
+            totalRead += read;
+            remaining -= read;
+            System.out.println("read " + totalRead + " bytes.");
+            fos.write(buffer, 0, read);
         }
     }
 
