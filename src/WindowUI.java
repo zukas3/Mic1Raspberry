@@ -99,8 +99,7 @@ public class WindowUI extends JFrame implements ActionListener
                 String s = fc.getSelectedFile().getAbsolutePath();
                 if(s.endsWith(".jas"))
                 {
-                ServerClient serverClient = new ServerClient();
-
+                    FilesToBytes.ToBytes(s);
                 }
                 else
                 {
