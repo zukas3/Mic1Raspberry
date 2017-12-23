@@ -39,11 +39,11 @@
 *   Richmond, Indiana, US
 */
 
-public class RunThread extends Thread {
+public class WrapperThread extends Thread {
 
-  mic1sim sim = null;
+  Mic1Wrapper sim = null;
 
-  public RunThread(mic1sim sim) {
+  public WrapperThread(Mic1Wrapper sim) {
     super("Run");
     this.sim = sim;
   }

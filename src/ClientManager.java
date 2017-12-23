@@ -52,6 +52,23 @@ public class ClientManager
     public void SendFile(String filePath) throws IOException {
 
         long fileSize = new File(filePath).length();
+        //out.writeLong();
+
+        FileInputStream fis = new FileInputStream(filePath);
+        byte[] buffer = new byte[4096];
+        //out.writeLong();
+
+        while (fis.read(buffer) > 0) {
+            out.write(buffer);
+        }
+    }
+
+    public void SendFile() throws IOException {
+
+        System.out.println("Enter path to a file you want to send: ");
+
+        String filePath = scanner.nextLine();
+        long fileSize = new File(filePath).length();
 
         FileInputStream fis = new FileInputStream(filePath);
         byte[] buffer = new byte[4096];
