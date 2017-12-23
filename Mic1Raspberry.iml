@@ -4,11 +4,13 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Mic" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/java_cup" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/runtime" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/micsource" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/source" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src_mic" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="Java Libraries" level="project" />
   </component>
 </module>

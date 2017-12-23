@@ -1,11 +1,14 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class ClientManager
 {
     Socket socket;
     DataInputStream in;
     DataOutputStream out;
+
+    Scanner scanner = new Scanner(System.in);
 
     public ClientManager(String address, int port) {
         try {
@@ -21,16 +24,56 @@ public class ClientManager
             try (DataInputStream dataInputStream = in = new DataInputStream(inFromServer)) {
             }
 
-            System.out.println("Server says " + in.readUTF());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void StartBuffer()
+    {
+        //Loops until meets a break
+        while(true)
+        {
+            String s = scanner.nextLine();
+            try {
+                SendUTF(s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void SendUTF(String message) throws IOException
+    {
+        System.out.println("Sending UTF message: " + message);
+        out.writeInt(MESSAGE_TYPE.UTF.getValue());
+        out.writeUTF(message);
+    }
+
     public void SendFile(String filePath) throws IOException {
+
+        long fileSize = new File(filePath).length();
+        //out.writeLong();
 
         FileInputStream fis = new FileInputStream(filePath);
         byte[] buffer = new byte[4096];
+        //out.writeLong();
+
+        while (fis.read(buffer) > 0) {
+            out.write(buffer);
+        }
+    }
+
+    public void SendFile() throws IOException {
+
+        System.out.println("Enter path to a file you want to send: ");
+
+        String filePath = scanner.nextLine();
+        long fileSize = new File(filePath).length();
+
+        FileInputStream fis = new FileInputStream(filePath);
+        byte[] buffer = new byte[4096];
+        //out.writeLong();
 
         while (fis.read(buffer) > 0) {
             out.write(buffer);
