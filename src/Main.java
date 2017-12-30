@@ -16,6 +16,8 @@ public class Main {
 
             if(args[0].equals("server"))
                 InitializeServer(port);
+            else
+                InitializeClient(args[0],port);
 
         } else {
 
@@ -72,6 +74,14 @@ public class Main {
         clientManager = new ClientManager(split[0],Integer.parseInt(split[1]));
         clientManager.StartBuffer();
     }
+
+    public static void InitializeClient(String ip, int port)
+    {
+        //Start client and start text buffer
+        clientManager = new ClientManager(ip,port);
+        clientManager.StartBuffer();
+    }
+
     public static void CreateUI(){
         WindowUI windowUI = new WindowUI();
     }

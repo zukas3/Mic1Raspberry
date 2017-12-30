@@ -33,18 +33,14 @@ import java.io.*;
 import java.util.*;
 
 /**
-* Main component of the mic1 simulator.  All components are
-* created in this class, and displayed in the mic1sim frame.
-* mic1sim also handles all keyboard and mouse events, loads
-* micro and macro programs, and coordinates the sequence of 
-* activities for each clock cycle.
+* Altered "mic1sim.java" from original source. Made to work with custom memory
 *
-* @author 
-*   Dan Stone (<a href="mailto:dans@ontko.com"><i>dans@ontko.com</i></a>),
-*   Ray Ontko & Co,
-*   Richmond, Indiana, US
+*
+*
+*
+*
 */
-public class Mic1Wrapper implements Mic1Constants {
+public class Mic1Wrapper extends Frame implements Mic1Constants {
 
   public static TextArea stdout = new TextArea(5, 50);
   public static boolean debug = false;
@@ -56,7 +52,7 @@ public class Mic1Wrapper implements Mic1Constants {
   MenuBar menubar = null;
   Menu file = null;
   GridBagLayout gridbag = new GridBagLayout();
-  WrapperThread run_thread = null;
+  ThreadWrapper run_thread = null;
 
   private Button reset_button = null;
   private Button run_button = null;
@@ -73,7 +69,7 @@ public class Mic1Wrapper implements Mic1Constants {
 
   // Components 
   private ControlStore control_store = null;
-  private MainMemory main_memory = null;
+  private MainMemoryWrapper main_memory = null; //Wrapped
   private ALU alu = null;
   private Shifter shifter = null;
   private Decoder decoder = null;
@@ -174,8 +170,17 @@ public class Mic1Wrapper implements Mic1Constants {
   }
 
   private void init() {
-    //stdout.setFont(new Font("Courier",Font.PLAIN,12));
-
+    stdout.setFont(new Font("Courier",Font.PLAIN,12));
+      menubar = new MenuBar();
+      setMenuBar(menubar);
+      file = new Menu("File");
+      file.add(new MenuItem("Load Microprogram"));
+      file.add(new MenuItem("Load Macroprogram"));
+      file.add(new MenuItem("Open Debug Window"));
+      file.add(new MenuItem("Exit"));
+      menubar.add(file);
+      next_micro = new TextField();
+      next_micro.setEditable(false);
     // First, create busses and control lines
 
     // Busses    
@@ -249,7 +254,7 @@ public class Mic1Wrapper implements Mic1Constants {
     // Components
     control_store = new ControlStore(control_store_cl, mir_bus);
     mpc = new MPC(mpc_cl, high_bit_cl, control_store_cl, control_store, next_micro);
-    main_memory = new MainMemory(byte_address_bus, word_address_bus, 
+    main_memory = new MainMemoryWrapper(byte_address_bus, word_address_bus,
 				 byte_data_bus, word_data_bus, memory_cl, mbr_store_cl, mdr_mem_cl, mdr);
     alu = new ALU(a_bus, b_bus, alu_bus, alu_cl, n_cl, z_cl);
     shifter = new Shifter(alu_bus, c_bus, shifter_cl);
@@ -258,8 +263,8 @@ public class Mic1Wrapper implements Mic1Constants {
     o = new O(o_addr_cl, o_mbr_cl, o_jmpc_cl, mpc_cl);
     high_bit = new HighBit(n_cl, z_cl, jam_cl, high_bit_cl);
 
-    //Wrappers don't do this :^)
-    //initializeFrame();
+    //We don't need to do UI, so we are skipping this
+    initializeFrame();
   }
 
   //*********************************************************************************************
@@ -310,7 +315,7 @@ public class Mic1Wrapper implements Mic1Constants {
     step_button.disable();
     reset_button.disable();
     stop_button.enable();
-    run_thread = new WrapperThread(this); //Custom wrapperThread
+    run_thread = new ThreadWrapper(this); //Custom wrapperThread
     run_thread.start();
   }
 
@@ -537,7 +542,9 @@ public class Mic1Wrapper implements Mic1Constants {
       break;
     case Event.KEY_ACTION:
     case Event.KEY_PRESS :
-      key_buffer.addElement(new Character((char)event.key));
+      //We wont be printing anything into our micwrapper
+
+      //key_buffer.addElement(new Character((char)event.key));
       //System.out.println("Key pressed: " + (char)event.key);
       break;
     case Event.WINDOW_DESTROY:
@@ -547,4 +554,97 @@ public class Mic1Wrapper implements Mic1Constants {
     return true;
   }
 
+    private void initializeFrame() {
+        setLayout(gridbag);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets(2,5,1,5);
+
+        c.weightx = 1.0; c.weighty = 0.0;
+
+        c.gridx = 0; c.gridy = 0; c.gridwidth = 2; c.gridheight = 1;
+        c.gridwidth=2; constrain(new Label("Registers"),c);
+        c.gridwidth=1;
+        c.gridy=1; constrain(new Label("MAR"),c);
+        c.gridy=2; constrain(new Label("MDR"),c);
+        c.gridy=3; constrain(new Label("PC"),c);
+        c.gridy=4; constrain(new Label("MBR"),c);
+        c.gridy=5; constrain(new Label("SP"),c);
+        c.gridy=6; constrain(new Label("LV"),c);
+        c.gridy=7; constrain(new Label("CPP"),c);
+        c.gridy=8; constrain(new Label("TOS"),c);
+        c.gridy=9; constrain(new Label("OPC"),c);
+        c.gridy=10; constrain(new Label("H"),c);
+        c.gridx=1;
+        c.gridy=1; constrain(mar,c);
+        c.gridy=2; constrain(mdr,c);
+        c.gridy=3; constrain(pc,c);
+        c.gridy=4; constrain(mbr,c);
+        c.gridy=5; constrain(sp,c);
+        c.gridy=6; constrain(lv,c);
+        c.gridy=7; constrain(cpp,c);
+        c.gridy=8; constrain(tos,c);
+        c.gridy=9; constrain(opc,c);
+        c.gridy=10; constrain(h,c);
+
+        c.gridx=2; c.gridy=0; c.gridwidth=2;
+        constrain(new Label("Components"),c);
+        c.gridwidth=1;
+        c.gridy=1; constrain(new Label("Microinstruction"),c);
+        c.gridy=2; constrain(new Label("NextMicroinstruction"),c);
+        c.gridy=3; constrain(new Label("MPC"),c);
+        c.gridy=4; constrain(new Label("ALU"),c);
+        c.gridwidth=2;
+        c.gridy=5; constrain(new Label("Standard out"),c);
+
+        c.gridwidth=1; c.gridx=3;
+        c.gridy=1; constrain(mir,c);
+        c.gridy=2; constrain(next_micro,c);
+        c.gridy=3; constrain(mpc,c);
+        c.gridy=4; constrain(alu,c);
+        c.gridwidth=2;
+        c.gridx=2;
+        c.gridheight=5;
+        c.gridy=6; constrain(stdout,c);
+
+        Panel button_panel = new Panel();
+        button_panel.setLayout(new GridLayout(1,4,5,5));
+
+        run_button = new Button("Run");
+        run_button.enable(false);
+        stop_button = new Button("Stop");
+        stop_button.enable(false);
+        step_button = new Button("Step");
+        step_button.enable(false);
+        reset_button = new Button("Reset");
+        reset_button.enable(false);
+
+        button_panel.add(run_button);
+        button_panel.add(stop_button);
+        button_panel.add(step_button);
+        button_panel.add(reset_button);
+
+        c.gridx = 0; c.gridy = 11; c.gridwidth = 5; c.gridheight = 1;
+        c.weightx = 1.0;
+        c.weighty = 0.0;
+        constrain(button_panel, c);
+
+        show();
+        resize(preferredSize());
+        paintAll(getGraphics());
+
+        //Hide this because we don't want to see it visually
+        this.setVisible(false);
+    }
+
+    private void constrain(Component component, GridBagConstraints constraints) {
+        ((GridBagLayout)getLayout()).setConstraints(component, constraints);
+        add(component);
+    }
+
+  //Manual way to insert something to the memory
+  public void PutCharacter(char c)
+  {
+    key_buffer.addElement(c);
+  }
 }

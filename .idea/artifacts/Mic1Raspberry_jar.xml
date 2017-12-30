@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Mic1Raspberry:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Mic1Raspberry_jar</output-path>
+    <root id="archive" name="Mic1Raspberry.jar">
+      <element id="module-output" name="Mic1Raspberry" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/java_cup/java-cup-11b.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/java_cup/java-cup-11b-runtime.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

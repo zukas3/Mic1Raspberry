@@ -3,6 +3,9 @@ import java.net.*;
 
 public class ServerManager
 {
+    Mic1Wrapper mic1;
+    FileManager fileManager;
+
     ServerSocket serverSocket;
     Socket socket;
 
@@ -11,6 +14,21 @@ public class ServerManager
 
     public ServerManager(int port)
     {
+        //Start the MIC1
+        try
+        {
+            fileManager = new FileManager();
+            String path = fileManager.PathToMicroprogram();
+
+            System.out.println("Starting MIC-1 with microprogram at path: " + path);
+            mic1 = new Mic1Wrapper(path);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Failed to start MIC-1");
+        }
+
+        //Start the server socket
         try
         {
             serverSocket = new ServerSocket(port); //Initial socket
@@ -30,7 +48,6 @@ public class ServerManager
         {
             System.out.println(e);
         }
-
     }
 
     public void StartListening() throws IOException
@@ -63,7 +80,7 @@ public class ServerManager
                 } catch (IOException e) { e.printStackTrace(); }
                 break;
 
-            case FILE_TRANSFER_START:
+            case PROGRAM_TRANSFER_START:
                 try {
                     ReceiveFile();
                 } catch (IOException e){ e.printStackTrace(); }
@@ -78,14 +95,14 @@ public class ServerManager
     void ReceiveFile() throws IOException
     {
         long fileSize = in.readLong();
+        String fileName = in.readUTF();
+
         int totalRead = 0;
         int read = 0;
         int remaining = (int)fileSize;
 
         byte[] buffer = new byte[4096];
-        //byte[] file = new byte[(int)fileSize]; Might try to reuse later
-
-        FileOutputStream fos = new FileOutputStream("transfered.dat");
+        FileOutputStream fos = new FileOutputStream(fileManager.PathToFiles() + fileName);
 
         while ((read = in.read(buffer, 0, Math.min(buffer.length, remaining))) > 0)
         {
@@ -94,6 +111,8 @@ public class ServerManager
             System.out.println("read " + totalRead + " bytes.");
             fos.write(buffer, 0, read);
         }
+
+        //fos.close();
     }
 
     public void Shutdown() throws IOException

@@ -29,21 +29,17 @@
 */ 
 
 /**
-* Thread which allows mic1 to continuously cycle.  Without running
-* the cycles in a background thread, the simulator would be unable to 
-* respond to mouse or keyboard events (such as clicking the "Stop" button).
 *
-* @author 
-*   Dan Stone (<a href="mailto:dans@ontko.com"><i>dans@ontko.com</i></a>),
-*   Ray Ontko & Co,
-*   Richmond, Indiana, US
+* Modified thread to work with new Mic1 wrapper
+*
+*
 */
 
-public class WrapperThread extends Thread {
+public class ThreadWrapper extends Thread {
 
   Mic1Wrapper sim = null;
 
-  public WrapperThread(Mic1Wrapper sim) {
+  public ThreadWrapper(Mic1Wrapper sim) {
     super("Run");
     this.sim = sim;
   }
