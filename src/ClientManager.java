@@ -33,9 +33,11 @@ public class ClientManager
         //Loops until meets a break
         while(true)
         {
-            String s = scanner.nextLine();
             try {
-                SendUTF(s);
+                System.out.println("Enter path to a file you want to send: ");
+                String filePath = scanner.nextLine();
+                SendFile(filePath);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -51,18 +53,26 @@ public class ClientManager
 
     public void SendFile(String filePath) throws IOException {
 
-        long fileSize = new File(filePath).length();
-        //out.writeLong();
+        out.writeInt(MESSAGE_TYPE.PROGRAM_TRANSFER_START.getValue());
+
+        File file = new File(filePath);
+        long fileSize = file.length();
+        String fileName = file.getName();
+        System.out.println("File size in bytes: " + fileSize);
 
         FileInputStream fis = new FileInputStream(filePath);
         byte[] buffer = new byte[4096];
-        //out.writeLong();
+        out.writeLong(fileSize);
+        out.writeUTF(fileName);
 
         while (fis.read(buffer) > 0) {
             out.write(buffer);
         }
+
+        System.out.println("File sent: " + fileSize);
     }
 
+    //Unfuctional
     public void SendFile() throws IOException {
 
         System.out.println("Enter path to a file you want to send: ");
@@ -72,7 +82,7 @@ public class ClientManager
 
         FileInputStream fis = new FileInputStream(filePath);
         byte[] buffer = new byte[4096];
-        //out.writeLong();
+        //out.writeInt();
 
         while (fis.read(buffer) > 0) {
             out.write(buffer);

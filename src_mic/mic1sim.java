@@ -44,7 +44,7 @@ import java.util.*;
 *   Ray Ontko & Co,
 *   Richmond, Indiana, US
 */
-public class mic1sim extends Frame implements Mic1Constants {
+public class  mic1sim extends Frame implements Mic1Constants {
 
   public static TextArea stdout = new TextArea(5, 50);
   public static boolean debug = false;
@@ -573,7 +573,7 @@ public class mic1sim extends Frame implements Mic1Constants {
     case Event.KEY_ACTION:
     case Event.KEY_PRESS :
       key_buffer.addElement(new Character((char)event.key));
-      //System.out.println("Key pressed: " + (char)event.key);
+      System.out.println("Key pressed: " + (char)event.key);
       break;
     case Event.WINDOW_DESTROY:
       System.exit(0);

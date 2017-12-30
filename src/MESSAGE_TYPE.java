@@ -1,7 +1,7 @@
 /// Enum used for identifying the messages sent between Client and Server
 public enum MESSAGE_TYPE
 {
-    UTF(0), ERROR(-1), INPUT(2), OUTPUT(3), FILE_TRANSFER_START(10), FILE_TRANSFER_END(20);
+    UTF(0), ERROR(-1), INPUT(2), OUTPUT(3), SERVER_STATUS(5), PROGRAM_TRANSFER_START(10), PROGRAM_TRANSFER_END(11), PROGRAM_START(12), CONNECTION_TERMINATION(100);
 
     private int value;
     private MESSAGE_TYPE(int value)
