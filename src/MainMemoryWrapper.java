@@ -30,6 +30,7 @@
 
 /**
  * Main memory wrapper customized to work with customized wrapper
+ * sends information to server class on what to send
  *
 */
 public class MainMemoryWrapper implements Mic1Constants {
@@ -80,7 +81,8 @@ public class MainMemoryWrapper implements Mic1Constants {
       data = write_data;
       if (address  < 0 ) {
           {
-              Mic1Wrapper.stdout.appendText(String.valueOf((char) data));
+              //Mic1Wrapper.stdout.appendText(String.valueOf((char) data));
+              ServerManager.main.SendOutputChar((char) data);
               System.out.println("Key written: " + data + ", " + (char) data);
           }
 	if (Mic1Wrapper.debug)

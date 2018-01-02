@@ -3,6 +3,8 @@ import java.net.*;
 
 public class ServerManager
 {
+    public static ServerManager main;
+
     Mic1Wrapper mic1;
     FileManager fileManager;
 
@@ -48,6 +50,8 @@ public class ServerManager
         {
             System.out.println(e);
         }
+
+        main = this;
     }
 
     public void StartListening() throws IOException
@@ -73,16 +77,15 @@ public class ServerManager
                 System.out.println("Error happened while processing message");
                 break;
 
-            case UTF:
+            case INPUT_CHAR:
                 try {
-                    String s = in.readUTF();
-                    System.out.println(s);
+                    ProcessCharInput();
                 } catch (IOException e) { e.printStackTrace(); }
                 break;
 
             case PROGRAM_TRANSFER_START:
                 try {
-                    ReceiveFile();
+                    ProcessProgramTransfer();
                 } catch (IOException e){ e.printStackTrace(); }
                 break;
 
@@ -92,7 +95,13 @@ public class ServerManager
         }
     }
 
-    void ReceiveFile() throws IOException
+    void ProcessCharInput() throws IOException
+    {
+        char c = in.readChar();
+        mic1.PutCharIntoMemory(c);
+    }
+
+    void ProcessProgramTransfer() throws IOException
     {
         long fileSize = in.readLong();
         String fileName = in.readUTF();
@@ -101,8 +110,9 @@ public class ServerManager
         int read = 0;
         int remaining = (int)fileSize;
 
-        byte[] buffer = new byte[4096];
-        FileOutputStream fos = new FileOutputStream(fileManager.PathToFiles() + fileName);
+        byte[] buffer = new byte[1024];
+        String path = fileManager.PathToFiles() + "\\" + fileName;
+        FileOutputStream fos = new FileOutputStream(path);
 
         while ((read = in.read(buffer, 0, Math.min(buffer.length, remaining))) > 0)
         {
@@ -112,7 +122,50 @@ public class ServerManager
             fos.write(buffer, 0, read);
         }
 
-        //fos.close();
+        long toSkip = fileSize % 1024;
+        in.skip(in.available()); //We gotta clean up the space of buffer leftover
+        fos.close();
+
+        File file = new File(fileManager.PathToFiles() + "\\" + fileName);
+        CheckProgramAndLoad(file);
+    }
+
+    void CheckProgramAndLoad(File file)
+    {
+        String format = "";
+        String fileName = "";
+
+        int i = file.getName().lastIndexOf('.');
+        format = file.getName().substring(i+1);
+        fileName = file.getName().substring(0,i); //Without the dot ".", so minus one
+
+        if(format.equals("jas"))
+        {
+            System.out.println("Received file format is JAS, preparing assembler");
+            String outPath = fileManager.PathToFiles() + "\\" + fileName + ".ijvm";
+            IJVMAssembler assembler = new IJVMAssembler(file.getAbsolutePath(), outPath);
+            mic1.loadProgram(outPath);
+            mic1.run();
+        }
+        else if(format.equals("ijvm"))
+        {
+            System.out.println("Received file format is IJVM, no need to convert");
+            mic1.loadProgram(file.getAbsolutePath());
+            mic1.run();
+        }
+        else
+        {
+            System.out.println("Couldn't tell the file format for file at: " + file.getAbsolutePath());
+        }
+
+    }
+
+    public void SendOutputChar(char c)
+    {
+        try {
+            out.writeInt(MESSAGE_TYPE.OUTPUT_CHAR.getValue());
+            out.writeChar(c);
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
     public void Shutdown() throws IOException

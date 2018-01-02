@@ -42,6 +42,8 @@ import java.util.*;
 */
 public class Mic1Wrapper extends Frame implements Mic1Constants {
 
+  public static ServerManager serverManager; //To keep track which serverManager it is responsible to
+
   public static TextArea stdout = new TextArea(5, 50);
   public static boolean debug = false;
   public static boolean run = false;
@@ -643,8 +645,14 @@ public class Mic1Wrapper extends Frame implements Mic1Constants {
     }
 
   //Manual way to insert something to the memory
-  public void PutCharacter(char c)
+  public void PutCharIntoMemory(char c)
   {
     key_buffer.addElement(c);
+  }
+
+  public void PutCharOutput(char c)
+  {
+    stdout.append(Character.toString(c));
+    serverManager.SendOutputChar(c);
   }
 }
