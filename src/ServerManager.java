@@ -111,7 +111,7 @@ public class ServerManager
         int remaining = (int)fileSize;
 
         byte[] buffer = new byte[1024];
-        String path = fileManager.PathToFiles() + "\\" + fileName;
+        String path = fileManager.PathToFiles() + "/" + fileName;
         FileOutputStream fos = new FileOutputStream(path);
 
         while ((read = in.read(buffer, 0, Math.min(buffer.length, remaining))) > 0)
@@ -126,7 +126,7 @@ public class ServerManager
         in.skip(in.available()); //We gotta clean up the space of buffer leftover
         fos.close();
 
-        File file = new File(fileManager.PathToFiles() + "\\" + fileName);
+        File file = new File(fileManager.PathToFiles() + "/" + fileName);
         CheckProgramAndLoad(file);
     }
 
@@ -142,7 +142,7 @@ public class ServerManager
         if(format.equals("jas"))
         {
             System.out.println("Received file format is JAS, preparing assembler");
-            String outPath = fileManager.PathToFiles() + "\\" + fileName + ".ijvm";
+            String outPath = fileManager.PathToFiles() + "/" + fileName + ".ijvm";
             IJVMAssembler assembler = new IJVMAssembler(file.getAbsolutePath(), outPath);
             mic1.loadProgram(outPath);
             mic1.run();

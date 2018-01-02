@@ -43,7 +43,7 @@ public class ClientManager
         {
             //First check if we have something to read
             try {
-                if (in.available() > 0) //We have some bytes to read
+                while(in.available() > 0) //We have some bytes to read
                 {
                     int num = in.readInt();
                     MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);

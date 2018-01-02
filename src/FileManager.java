@@ -13,7 +13,7 @@ public class FileManager
 
     public void SaveBytesToFile(byte[] bytes, String fileName)
     {
-        try (FileOutputStream fos = new FileOutputStream(PathToFiles() + "\\" + fileName)) {
+        try (FileOutputStream fos = new FileOutputStream(PathToFiles() + "/" + fileName)) {
             fos.write(bytes);
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class FileManager
 
     public String PathToFiles()
     {
-        String path = System.getProperty("user.dir") + "\\Programs";
+        String path = System.getProperty("user.dir") + "/Programs";
 
         File f = new File(path);
         if(!f.isDirectory())
@@ -46,7 +46,7 @@ public class FileManager
 
     public String PathToMicroprogram()
     {
-        String path =  System.getProperty("user.dir") + "\\mic1ijvm.mic1";
+        String path =  System.getProperty("user.dir") + "/mic1ijvm.mic1";
         return path;
     }
 
