@@ -69,8 +69,8 @@ public class Main {
     public static void InitializeClient(String ip, int port)
     {
         //Start client and start text buffer
+        new Thread(clientManager = new ClientManager(ip,port)).start();
         CreateMainUI();
-        clientManager = new ClientManager(ip, port);
     }
 
     public static void CreateIntroUI()
@@ -80,8 +80,15 @@ public class Main {
 
     public static void CreateMainUI()
     {
-        SwingUtilities.invokeLater(new WindowUI());
-        //WindowUI windowUI = new WindowUI();
+        //new Thread(new WindowUI()).start();
+        //SwingUtilities.invokeLater(new Runnable() {
+
+        //    @Override
+        //    public void run() {
+        //        new WindowUI().setVisible(true);
+        //    }
+        //});
+        WindowUI windowUI = new WindowUI();
     }
 }
 

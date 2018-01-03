@@ -133,8 +133,8 @@ public class ServerClient extends JFrame implements ActionListener
                 {
                     String s = ip.getText();
                     int p = Integer.parseInt(port.getText());
-                    Main.InitializeClient(s, p);
                     this.dispose();
+                    Main.InitializeClient(s, p);
                 }
             }
 

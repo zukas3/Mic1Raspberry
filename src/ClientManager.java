@@ -3,7 +3,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-public class ClientManager
+public class ClientManager implements Runnable
 {
     public static ClientManager main;
 
@@ -28,7 +28,6 @@ public class ClientManager
             in = new DataInputStream(inFromServer);
 
             main = this;
-            StartListening();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,9 +35,14 @@ public class ClientManager
         }
     }
 
+    public void run()
+    {
+        StartListening();
+    }
+
     public void StartListening()
     {
-        //Loops until meets a break
+        //
         while(true)
         {
             //First check if we have something to read
