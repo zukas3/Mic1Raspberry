@@ -21,7 +21,8 @@ public class ClientManager
             out = new DataOutputStream(outToServer);
 
             InputStream inFromServer = socket.getInputStream();
-            in = new DataInputStream(inFromServer);
+            try (DataInputStream dataInputStream = in = new DataInputStream(inFromServer)) {
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
