@@ -16,7 +16,7 @@ public class ServerClient extends JFrame implements ActionListener
 
     ServerClient()
     {
-        setTitle("Connecting window");
+        setTitle("Connection Window");
 
         Label();
         add(label);
@@ -117,24 +117,30 @@ public class ServerClient extends JFrame implements ActionListener
 
     public void actionPerformed(ActionEvent e)
     {
-
-
             if (server.isSelected() )
             {
                 ip.setEditable(false);
-            }
-            if (client.isSelected()) {
-                ip.setEditable(true);
 
                 if (e.getSource() == co)
                 {
                     setVisible(false);
-                    WindowUI windowUI = new WindowUI();
+                    int p = Integer.parseInt(port.getText());
+                    Main.InitializeServer(p);
                 }
-
             }
+            if (client.isSelected())
+            {
+                ip.setEditable(true);
 
-
+                //Pressed on connect button
+                if (e.getSource() == co)
+                {
+                    setVisible(false);
+                    String s = ip.getText();
+                    int p = Integer.parseInt(port.getText());
+                    Main.InitializeClient(s, p);
+                }
+            }
 
     }
 

@@ -27,6 +27,7 @@ public class ServerManager
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             System.out.println("Failed to start MIC-1");
         }
 
@@ -86,12 +87,12 @@ public class ServerManager
             case PROGRAM_TRANSFER_START:
                 try {
                     ProcessProgramTransfer();
-                } catch (IOException e){ e.printStackTrace(); }
+                } catch (IOException e) { e.printStackTrace(); }
                 break;
 
-                default:
-                    System.out.println("Couldn't find a situation for this type of message");
-                    break;
+            default:
+                System.out.println("Couldn't find a situation for this type of message");
+                break;
         }
     }
 
@@ -103,11 +104,12 @@ public class ServerManager
 
     void ProcessProgramTransfer() throws IOException
     {
+        //Read file size
         long fileSize = in.readLong();
         String fileName = in.readUTF();
 
-        int totalRead = 0;
-        int read = 0;
+        int totalRead = 0;      //Total amount of bytes already processed
+        int read = 0;           //Used in a while loop
         int remaining = (int)fileSize;
 
         byte[] buffer = new byte[1024];
@@ -135,9 +137,12 @@ public class ServerManager
         String format = "";
         String fileName = "";
 
+        //Separate file name from format name
         int i = file.getName().lastIndexOf('.');
         format = file.getName().substring(i+1);
         fileName = file.getName().substring(0,i); //Without the dot ".", so minus one
+
+        SendStatusMessage("Checking received file");
 
         if(format.equals("jas"))
         {
@@ -145,18 +150,38 @@ public class ServerManager
             String outPath = fileManager.PathToFiles() + "/" + fileName + ".ijvm";
             IJVMAssembler assembler = new IJVMAssembler(file.getAbsolutePath(), outPath);
             mic1.loadProgram(outPath);
-            mic1.run();
+
+            try {
+                mic1.run();
+                SendStatusMessage("MIC-1 is now running");
+            }
+            catch (NullPointerException e)
+            {
+                System.out.println("Error while trying to run the program");
+                SendErrorMessage("Error while trying to run the program");
+                Shutdown();
+            }
         }
         else if(format.equals("ijvm"))
         {
-            System.out.println("Received file format is IJVM, no need to convert");
+            System.out.println("Received file format is IJVM, no need to compile");
             mic1.loadProgram(file.getAbsolutePath());
-            mic1.run();
+
+            try {
+                mic1.run();
+                SendStatusMessage("MIC-1 is now running");
+            }
+            catch (NullPointerException e)
+            {
+                System.out.println("Error while trying to run the program");
+                SendErrorMessage("Error while trying to run the program");
+                Shutdown();
+            }
         }
         else
         {
             System.out.println("Couldn't tell the file format for file at: " + file.getAbsolutePath());
-
+            Shutdown();
         }
     }
 
@@ -176,11 +201,23 @@ public class ServerManager
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    public void Shutdown() throws IOException
+    public void SendStatusMessage(String s)
     {
-        in.close();
-        out.close();
-        socket.close();
-        serverSocket.close();
+        try {
+            out.writeInt(MESSAGE_TYPE.SERVER_STATUS.getValue());
+            out.writeUTF(s);
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    public void Shutdown()
+    {
+        try {
+            out.writeInt(MESSAGE_TYPE.CONNECTION_TERMINATION.getValue());
+
+            in.close();
+            out.close();
+            socket.close();
+            serverSocket.close();
+        } catch (IOException e) {e.printStackTrace();};
     }
 }

@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class WindowUI extends JFrame implements ActionListener
 {
+    public static WindowUI main;
 
     JTextField t1, t2;
     JTextArea files, statusBar;
@@ -16,11 +17,10 @@ public class WindowUI extends JFrame implements ActionListener
 
     WindowUI()
     {
-        setTitle("Assembler compiler");
+        setTitle("MIC-1 Control Window");
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\aurim\\Pictures\\MIF_zenklas_png.png");
-
-        setIconImage(icon);
+        //Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\aurim\\Pictures\\MIF_zenklas_png.png");
+        //setIconImage(icon);
 
         buttons();
         TextField();
@@ -42,24 +42,15 @@ public class WindowUI extends JFrame implements ActionListener
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-
-
-
-
+        main = this;
     }
+
     public void buttons()
     {
         b1 = new JButton("Load files");
         b1.addActionListener(this);
         b1.setBounds(30,20,100,30);
         b1.setVisible(true);
-
-        /*b = new JButton();
-        b.setText("Start");
-        b.setBounds(50, 115, 70, 30);
-        b.addActionListener(this);*/
-
-
     }
 
 
@@ -86,7 +77,10 @@ public class WindowUI extends JFrame implements ActionListener
         statusBar.setEditable(false);
     }
 
-
+    public void SetStatusText(String s)
+    {
+        statusBar.setText(s);
+    }
 
 
     @Override
@@ -100,18 +94,17 @@ public class WindowUI extends JFrame implements ActionListener
             int i = fc.showOpenDialog(this);
             if( i == JFileChooser.APPROVE_OPTION){
                 String s = fc.getSelectedFile().getAbsolutePath();
-                if(s.endsWith(".jas"))
+                if(s.endsWith(".jas") || s.endsWith(".ijvm"))
                 {
-                    files.setText(s);
-                    //FilesToBytes.ToBytes(s);
+                    try {
+                        ClientManager.main.SendFile(s);
+                    } catch (IOException ee) { ee.printStackTrace(); }
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(this, "You must select '.jas' file.");
+                    JOptionPane.showMessageDialog(this, "You must select '.jas' or '.ijvm' file.");
                 }
             }
         }
     }
-
-
 }

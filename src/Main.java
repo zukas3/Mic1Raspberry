@@ -21,17 +21,7 @@ public class Main {
 
         } else {
 
-            System.out.printf("Do you want to start a (S)erver or (C)lient? ");
-            String s = scanner.nextLine();
-
-            System.out.printf("User entered: " + s + '\n');
-
-            if (s.equals("S"))
-                InitializeServer();
-            else if (s.equals("C"))
-                InitializeClient();
-            else
-                System.out.printf("Couldn't understand the given command... ");
+            CreateIntroUI();
 
         }
     }
@@ -72,17 +62,23 @@ public class Main {
 
         //Start client and start text buffer
         clientManager = new ClientManager(split[0],Integer.parseInt(split[1]));
-        clientManager.StartBuffer();
+        clientManager.StartListening();
     }
 
     public static void InitializeClient(String ip, int port)
     {
         //Start client and start text buffer
         clientManager = new ClientManager(ip,port);
-        clientManager.StartBuffer();
+        clientManager.StartListening();
+        CreateMainUI();
     }
 
-    public static void CreateUI()
+    public static void CreateIntroUI()
+    {
+        ServerClient serverClient = new ServerClient();
+    }
+
+    public static void CreateMainUI()
     {
         WindowUI windowUI = new WindowUI();
     }

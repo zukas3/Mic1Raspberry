@@ -1,9 +1,12 @@
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
 public class ClientManager
 {
+    public static ClientManager main;
+
     Socket socket;
     DataInputStream in;
     DataOutputStream out;
@@ -26,19 +29,14 @@ public class ClientManager
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
+
+        main = this;
     }
 
-    public void StartBuffer()
+    public void StartListening()
     {
-        System.out.println("Enter path to a file you want to send: ");
-        String filePath = scanner.nextLine();
-        try {
-            SendFile(filePath);
-        } catch (IOException e) { e.printStackTrace(); }
-
-
-
         //Loops until meets a break
         while(true)
         {
@@ -72,6 +70,14 @@ public class ClientManager
                     ReceiveChar();
                 } catch (IOException e) { e.printStackTrace(); }
                 break;
+            case ERROR_MESSAGE:
+                //Fill in later
+                break;
+            case SERVER_STATUS:
+                try {
+                    ReceiveStatusMessage();
+                } catch (IOException e) { e.printStackTrace(); }
+                break;
         }
     }
 
@@ -79,6 +85,18 @@ public class ClientManager
     {
         char c = in.readChar();
         System.out.println(c);
+    }
+
+    public void ReceiveStatusMessage() throws IOException
+    {
+        String s = in.readUTF();
+        WindowUI.main.SetStatusText(s);
+    }
+
+    public void ReceiveErrorMessge() throws IOException
+    {
+        String s = in.readUTF();
+        System.out.println("Error: " + s);
     }
 
     //Not used anymore
@@ -116,23 +134,6 @@ public class ClientManager
 
         fis.close();
         System.out.println("File sent: " + fileName);
-    }
-
-    //Unfuctional
-    public void SendFile() throws IOException {
-
-        System.out.println("Enter path to a file you want to send: ");
-
-        String filePath = scanner.nextLine();
-        long fileSize = new File(filePath).length();
-
-        FileInputStream fis = new FileInputStream(filePath);
-        byte[] buffer = new byte[1024];
-        //out.writeInt();
-
-        while (fis.read(buffer) > 0) {
-            out.write(buffer);
-        }
     }
 
     public void CloseConnection() throws IOException
