@@ -1,4 +1,4 @@
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +12,6 @@ public class ServerClient extends JFrame implements ActionListener
     JTextField ip, port;
     JLabel label;
     JButton co;
-    Main main = new Main();
 
     ServerClient()
     {
@@ -42,9 +41,6 @@ public class ServerClient extends JFrame implements ActionListener
         Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\aurim\\Pictures\\MIF_zenklas_png.png");
 
         setIconImage(icon);
-
-
-
     }
 
     public void Label(){
