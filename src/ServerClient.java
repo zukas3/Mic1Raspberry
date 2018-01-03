@@ -1,9 +1,10 @@
 import javafx.scene.control.ToggleGroup;
-import java.lang.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class ServerClient extends JFrame implements ActionListener
 {
@@ -11,6 +12,7 @@ public class ServerClient extends JFrame implements ActionListener
     JTextField ip, port;
     JLabel label;
     JButton co;
+    Main main = new Main();
 
     ServerClient()
     {
@@ -56,6 +58,7 @@ public class ServerClient extends JFrame implements ActionListener
         ButtonGroup bg = new ButtonGroup();
         client = new JRadioButton("Client");
         client.setBounds(30,30,70,30);
+        client.setSelected(true);
 
         server = new JRadioButton("Server");
         server.setBounds(140, 30,70,30);
@@ -70,13 +73,39 @@ public class ServerClient extends JFrame implements ActionListener
     public void IpPort()
     {
         ToggleGroup group = new ToggleGroup();
-        ip = new JTextField("Ip..");
+        ip = new JTextField("Ip...");
         ip.setBounds(30, 80, 90, 30);
-        //ip.setToggleGroup(group);
+        ip.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                ip.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (ip.getText().equals(""))
+                {
+                    ip.setText("Ip...");
+                }
+
+            }
+        });
 
         port = new JTextField("Port num.");
         port.setBounds(140,80, 60, 30);
-
+        port.addFocusListener(new FocusListener() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (port.getText().equals(""))
+                {
+                    port.setText("Port num.");
+                }
+            }
+            @Override
+            public void focusGained(FocusEvent e) {
+                port.setText("");
+            }
+    });
     }
 
     public void Butt()
@@ -89,12 +118,20 @@ public class ServerClient extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
+
             if (server.isSelected() )
             {
                 ip.setEditable(false);
             }
             if (client.isSelected()) {
                 ip.setEditable(true);
+
+                if (e.getSource() == co)
+                {
+                    setVisible(false);
+                    WindowUI windowUI = new WindowUI();
+                }
+
             }
 
 
