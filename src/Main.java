@@ -20,6 +20,8 @@ public class Main {
                 InitializeClient(args[0],port);
 
         } else {
+            ServerClient serverClient = new ServerClient();
+           // WindowUI windowUI = new WindowUI();
 
             System.out.printf("Do you want to start a (S)erver or (C)lient? ");
             String s = scanner.nextLine();

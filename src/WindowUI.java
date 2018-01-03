@@ -10,8 +10,8 @@ import java.awt.*;
 public class WindowUI extends JFrame implements ActionListener
 {
 
-    JTextField t1, t2, con;
-    JTextArea files;
+    JTextField t1, t2;
+    JTextArea files, statusBar;
     JButton b,b1, conn;
 
     WindowUI()
@@ -32,6 +32,7 @@ public class WindowUI extends JFrame implements ActionListener
         add(t2);
         add(t1);
         add(files);
+        add(statusBar);
         files.setVisible(true);
 
         getContentPane().setLayout(null);
@@ -39,6 +40,7 @@ public class WindowUI extends JFrame implements ActionListener
         setSize(400, 330);
         setVisible(true);
         setLayout(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
 
@@ -65,10 +67,6 @@ public class WindowUI extends JFrame implements ActionListener
 
     public void TextField()
     {
-
-
-
-
         t1= new JTextField();
         t1.setBounds(30,180,150,60);
         t2 = new JTextField();
@@ -80,7 +78,12 @@ public class WindowUI extends JFrame implements ActionListener
     public void TextArea()
     {
         files = new JTextArea();
-        files.setBounds(30,80,320,70);
+        files.setBounds(150,20,150,30);
+        files.setEditable(false);
+
+        statusBar = new JTextArea();
+        statusBar.setBounds(30,80,300,40);
+        statusBar.setEditable(false);
     }
 
 
@@ -99,6 +102,7 @@ public class WindowUI extends JFrame implements ActionListener
                 String s = fc.getSelectedFile().getAbsolutePath();
                 if(s.endsWith(".jas"))
                 {
+                    files.setText(s);
                     FilesToBytes.ToBytes(s);
                 }
                 else
