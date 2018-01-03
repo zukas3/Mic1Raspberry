@@ -14,6 +14,7 @@ public class ClientManager
     Scanner scanner = new Scanner(System.in);
 
     public ClientManager(String address, int port) {
+
         try {
             System.out.println("Connecting to " + address + " on port " + port);
             socket = new Socket(address, port);
@@ -24,19 +25,15 @@ public class ClientManager
             out = new DataOutputStream(outToServer);
 
             InputStream inFromServer = socket.getInputStream();
-            try (DataInputStream dataInputStream = in = new DataInputStream(inFromServer)) {
+            in = new DataInputStream(inFromServer);
 
-            } catch (IOException e) {e.printStackTrace();}
-
+            main = this;
             StartListening();
 
         } catch (IOException e) {
             e.printStackTrace();
 
         }
-
-
-        main = this;
     }
 
     public void StartListening()
@@ -45,17 +42,17 @@ public class ClientManager
         while(true)
         {
             //First check if we have something to read
-            try {
-                while(in.available() > 0) //We have some bytes to read
-                {
-                    int num = in.readInt();
-                    MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);
-                    System.out.printf("Message type received: " + type.toString() + '\n');
-                    ProcessMessage(type);
-                }
-            } catch (IOException e) { e.printStackTrace(); }
+            //try {
+            //    while(in.available() > 0) //We have some bytes to read
+            //    {
+            //        int num = in.readInt();
+            //        MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);
+            //        System.out.printf("Message type received: " + type.toString() + '\n');
+            //        ProcessMessage(type);
+            //    }
+            //} catch (IOException e) { e.printStackTrace(); }
 
-            //Otherwise we
+            //Otherwise we send letters
             try {
                 System.out.println("Enter a char to send: ");
                 char c = scanner.next().charAt(0);

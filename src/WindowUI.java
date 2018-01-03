@@ -28,7 +28,6 @@ public class WindowUI extends JFrame implements ActionListener
 
         add(b1);
 
-
         add(t2);
         add(t1);
         add(files);

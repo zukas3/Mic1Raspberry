@@ -12,12 +12,17 @@ public class Main {
 
         if(args.length > 1)
         {
-            int port = Integer.parseInt(args[1]);
 
             if(args[0].equals("server"))
+            {
+                int port = Integer.parseInt(args[1]);
                 InitializeServer(port);
-            else
-                InitializeClient(args[0],port);
+            }
+            else if(args[0].equals("client"))
+            {
+                int port = Integer.parseInt(args[2]);
+                InitializeClient(args[1], port);
+            }
 
         } else {
 
@@ -47,11 +52,6 @@ public class Main {
     public static void InitializeServer(int port)
     {
         serverManager = new ServerManager(port);
-        try {
-            serverManager.StartListening();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     public static void InitializeClient()
@@ -64,11 +64,12 @@ public class Main {
         clientManager = new ClientManager(split[0],Integer.parseInt(split[1]));
     }
 
+
     public static void InitializeClient(String ip, int port)
     {
         //Start client and start text buffer
-        clientManager = new ClientManager(ip,port);
         CreateMainUI();
+        clientManager = new ClientManager(ip, port);
     }
 
     public static void CreateIntroUI()

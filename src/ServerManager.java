@@ -46,13 +46,14 @@ public class ServerManager
 
             InputStream inFromServer = socket.getInputStream(); //Input
             in = new DataInputStream(inFromServer);
+
+            main = this;
+            StartListening();
         }
         catch(Exception e)
         {
             System.out.println(e);
         }
-
-        main = this;
     }
 
     public void StartListening() throws IOException
@@ -175,13 +176,13 @@ public class ServerManager
             {
                 System.out.println("Error while trying to run the program");
                 SendErrorMessage("Error while trying to run the program");
-                Shutdown();
+                //Shutdown();
             }
         }
         else
         {
             System.out.println("Couldn't tell the file format for file at: " + file.getAbsolutePath());
-            Shutdown();
+            //Shutdown();
         }
     }
 
