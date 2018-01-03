@@ -120,6 +120,7 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
                 String s = fc.getSelectedFile().getAbsolutePath();
                 if(s.endsWith(".jas") || s.endsWith(".ijvm"))
                 {
+                    files.setText(s);
                     try {
                         ClientManager.main.SendFile(s);
                     } catch (IOException ee) { ee.printStackTrace(); }
