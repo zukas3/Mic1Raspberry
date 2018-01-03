@@ -7,11 +7,11 @@ import java.io.*;
 //import java.awt.event.ActionListener;
 import java.awt.*;
 
-public class WindowUI extends JFrame implements ActionListener
+public class WindowUI extends JFrame implements ActionListener, Runnable
 {
     public static WindowUI main;
 
-    JTextField t1, t2;
+    JTextArea t1, t2;
     JTextArea files, statusBar;
     JButton b,b1, conn;
 
@@ -35,6 +35,7 @@ public class WindowUI extends JFrame implements ActionListener
         files.setVisible(true);
 
         getContentPane().setLayout(null);
+        getContentPane().setBackground(new Color(119,136,153));
         setResizable(false);
         setSize(400, 330);
         setVisible(true);
@@ -42,6 +43,11 @@ public class WindowUI extends JFrame implements ActionListener
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         main = this;
+    }
+
+    public void run()
+    {
+
     }
 
     public void buttons()
@@ -57,12 +63,26 @@ public class WindowUI extends JFrame implements ActionListener
 
     public void TextField()
     {
-        t1= new JTextField();
+        t1= new JTextArea();
         t1.setBounds(30,180,150,60);
-        t2 = new JTextField();
+        t1.setLineWrap(true);
+        t1.addKeyListener( new KeyAdapter()
+        {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println(e.getKeyCode());
+                try {
+                    ClientManager.main.SendCharInput(e.getKeyChar());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
 
+        t2 = new JTextArea();
         t2.setBounds(200,180,150,60);
         t2.setEditable(false);
+        t2.setLineWrap(true);
     }
 
     public void TextArea()
@@ -79,6 +99,11 @@ public class WindowUI extends JFrame implements ActionListener
     public void SetStatusText(String s)
     {
         statusBar.setText(s);
+    }
+
+    public void PutCharOutput(char c)
+    {
+        t2.setText(t2.getText() + c);
     }
 
 

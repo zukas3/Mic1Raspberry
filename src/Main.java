@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.*;
 
 public class Main {
 
@@ -79,7 +80,8 @@ public class Main {
 
     public static void CreateMainUI()
     {
-        WindowUI windowUI = new WindowUI();
+        SwingUtilities.invokeLater(new WindowUI());
+        //WindowUI windowUI = new WindowUI();
     }
 }
 

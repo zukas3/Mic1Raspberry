@@ -135,10 +135,10 @@ public class ServerClient extends JFrame implements ActionListener
                 //Pressed on connect button
                 if (e.getSource() == co)
                 {
-                    setVisible(false);
                     String s = ip.getText();
                     int p = Integer.parseInt(port.getText());
                     Main.InitializeClient(s, p);
+                    this.dispose();
                 }
             }
 

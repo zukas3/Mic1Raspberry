@@ -42,23 +42,23 @@ public class ClientManager
         while(true)
         {
             //First check if we have something to read
-            //try {
-            //    while(in.available() > 0) //We have some bytes to read
-            //    {
-            //        int num = in.readInt();
-            //        MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);
-            //        System.out.printf("Message type received: " + type.toString() + '\n');
-            //        ProcessMessage(type);
-            //    }
-            //} catch (IOException e) { e.printStackTrace(); }
+            try {
+                while(in.available() > 0) //We have some bytes to read
+                {
+                    int num = in.readInt();
+                    MESSAGE_TYPE type = MESSAGE_TYPE.GetValue(num);
+                    System.out.printf("Message type received: " + type.toString() + '\n');
+                    ProcessMessage(type);
+                }
+            } catch (IOException e) { e.printStackTrace(); }
 
             //Otherwise we send letters
-            try {
-                System.out.println("Enter a char to send: ");
-                char c = scanner.next().charAt(0);
-                SendCharInput(c);
+            //try {
+            //    System.out.println("Enter a char to send: ");
+            //    char c = scanner.next().charAt(0);
+            //    SendCharInput(c);
 
-            } catch (IOException e) { e.printStackTrace(); }
+            //} catch (IOException e) { e.printStackTrace(); }
         }
     }
 
@@ -85,6 +85,7 @@ public class ClientManager
     public void ReceiveChar() throws IOException
     {
         char c = in.readChar();
+        WindowUI.main.PutCharOutput(c);
         System.out.println(c);
     }
 
