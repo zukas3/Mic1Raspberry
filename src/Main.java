@@ -62,14 +62,12 @@ public class Main {
 
         //Start client and start text buffer
         clientManager = new ClientManager(split[0],Integer.parseInt(split[1]));
-        clientManager.StartListening();
     }
 
     public static void InitializeClient(String ip, int port)
     {
         //Start client and start text buffer
         clientManager = new ClientManager(ip,port);
-        clientManager.StartListening();
         CreateMainUI();
     }
 

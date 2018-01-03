@@ -25,12 +25,16 @@ public class ClientManager
 
             InputStream inFromServer = socket.getInputStream();
             try (DataInputStream dataInputStream = in = new DataInputStream(inFromServer)) {
-            }
+
+            } catch (IOException e) {e.printStackTrace();}
+
+            StartListening();
 
         } catch (IOException e) {
             e.printStackTrace();
 
         }
+
 
         main = this;
     }
