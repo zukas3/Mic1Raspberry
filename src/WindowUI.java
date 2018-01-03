@@ -65,10 +65,6 @@ public class WindowUI extends JFrame implements ActionListener
 
     public void TextField()
     {
-
-
-
-
         t1= new JTextField();
         t1.setBounds(30,180,150,60);
         t2 = new JTextField();
@@ -99,7 +95,7 @@ public class WindowUI extends JFrame implements ActionListener
                 String s = fc.getSelectedFile().getAbsolutePath();
                 if(s.endsWith(".jas"))
                 {
-                    FilesToBytes.ToBytes(s);
+                    //FilesToBytes.ToBytes(s);
                 }
                 else
                 {
@@ -108,6 +104,4 @@ public class WindowUI extends JFrame implements ActionListener
             }
         }
     }
-
-
 }

@@ -82,7 +82,8 @@ public class Main {
         clientManager.StartBuffer();
     }
 
-    public static void CreateUI(){
+    public static void CreateUI()
+    {
         WindowUI windowUI = new WindowUI();
     }
 }

@@ -156,8 +156,8 @@ public class ServerManager
         else
         {
             System.out.println("Couldn't tell the file format for file at: " + file.getAbsolutePath());
-        }
 
+        }
     }
 
     public void SendOutputChar(char c)
@@ -165,6 +165,14 @@ public class ServerManager
         try {
             out.writeInt(MESSAGE_TYPE.OUTPUT_CHAR.getValue());
             out.writeChar(c);
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    public void SendErrorMessage(String s)
+    {
+        try {
+            out.writeInt(MESSAGE_TYPE.ERROR_MESSAGE.getValue());
+            out.writeUTF(s);
         } catch (IOException e) { e.printStackTrace(); }
     }
 
