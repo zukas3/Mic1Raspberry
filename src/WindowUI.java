@@ -1,10 +1,10 @@
-import java.awt.FlowLayout;
-import java.awt.TextArea;
+//import java.awt.FlowLayout;
+//import java.awt.TextArea;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionEvent;
 import java.io.*;
-import java.awt.event.ActionListener;
+//import java.awt.event.ActionListener;
 import java.awt.*;
 
 public class WindowUI extends JFrame implements ActionListener
@@ -103,7 +103,7 @@ public class WindowUI extends JFrame implements ActionListener
                 if(s.endsWith(".jas"))
                 {
                     files.setText(s);
-                    FilesToBytes.ToBytes(s);
+                    //FilesToBytes.ToBytes(s);
                 }
                 else
                 {
