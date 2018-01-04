@@ -34,6 +34,7 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
         add(statusBar);
         files.setVisible(true);
 
+
         getContentPane().setLayout(null);
         getContentPane().setBackground(new Color(119,136,153));
         setResizable(false);
@@ -71,13 +72,19 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
             @Override
             public void keyPressed(KeyEvent e) {
                 System.out.println(e.getKeyCode());
-                try {
-                    ClientManager.main.SendCharInput(e.getKeyChar());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                if (e.getKeyCode() <= 32 || e.getKeyCode() ==127)
+                {
+                }
+                else {
+                    try {
+                        ClientManager.main.SendCharInput(e.getKeyChar());
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
+
 
         t2 = new JTextArea();
         t2.setBounds(200,180,150,60);
