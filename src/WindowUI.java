@@ -1,6 +1,7 @@
 //import java.awt.FlowLayout;
 //import java.awt.TextArea;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.*;
 //import java.awt.event.ActionEvent;
 import java.io.*;
@@ -43,12 +44,23 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        SetBorders();
         main = this;
     }
 
     public void run()
     {
 
+    }
+
+    public void SetBorders()
+    {
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+
+        t1.setBorder(border);
+        t2.setBorder(border);
+        files.setBorder(border);
+        //statusBar.setBorder(border);
     }
 
     public void buttons()
@@ -87,7 +99,6 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
             }
         });
 
-
         t2 = new JTextArea();
         sOutput = new JScrollPane(t2);
         sOutput.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -117,6 +128,11 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
         t2.setText(t2.getText() + c);
     }
 
+    public void Reset()
+    {
+        t1.setText("");
+        t2.setText("");
+    }
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -131,10 +147,11 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
                 String s = fc.getSelectedFile().getAbsolutePath();
                 if(s.endsWith(".jas") || s.endsWith(".ijvm"))
                 {
-                    files.setText(s);
+                    files.setText(fc.getSelectedFile().getName());
                     try
                     {
                         ClientManager.main.SendFile(s);
+                        Reset();
                     } catch (IOException ee) { ee.printStackTrace(); }
                 }
                 else

@@ -96,7 +96,9 @@ public class ClientManager implements Runnable
     public void ReceiveStatusMessage() throws IOException
     {
         String s = in.readUTF();
-        WindowUI.main.SetStatusText(s);
+
+        if(WindowUI.main != null) //Check if we have UI loaded
+            WindowUI.main.SetStatusText(s);
     }
 
     public void ReceiveErrorMessge() throws IOException

@@ -33,12 +33,7 @@ import java.io.*;
 import java.util.*;
 
 /**
-* Altered "mic1sim.java" from original source. Made to work with custom memory
-*
-*
-*
-*
-*
+* Altered "mic1sim.java" from original source. Made to work with custom memory and with server and client manager
 */
 public class Mic1Wrapper extends Frame implements Mic1Constants {
 
@@ -265,7 +260,6 @@ public class Mic1Wrapper extends Frame implements Mic1Constants {
     o = new O(o_addr_cl, o_mbr_cl, o_jmpc_cl, mpc_cl);
     high_bit = new HighBit(n_cl, z_cl, jam_cl, high_bit_cl);
 
-    //We don't need to do UI, so we are skipping this
     initializeFrame();
   }
 
@@ -636,6 +630,7 @@ public class Mic1Wrapper extends Frame implements Mic1Constants {
         paintAll(getGraphics());
 
         //Hide this because we don't want to see it visually
+        //Pretty much the reason why UI must always be built on top of the core
         this.setVisible(false);
     }
 

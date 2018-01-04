@@ -48,6 +48,7 @@ public class ServerManager
             in = new DataInputStream(inFromServer);
 
             main = this;
+            SendStatusMessage("Waiting for a program");
             StartListening();
         }
         catch(Exception e)
@@ -145,9 +146,15 @@ public class ServerManager
 
         SendStatusMessage("Checking received file");
 
+        if(Mic1Wrapper.run)
+        {
+            mic1.stop();
+        }
+
         if(format.equals("jas"))
         {
             System.out.println("Received file format is JAS, preparing assembler");
+            SendStatusMessage("Assembling JAS into IJVM");
             String outPath = fileManager.PathToFiles() + "/" + fileName + ".ijvm";
             IJVMAssembler assembler = new IJVMAssembler(file.getAbsolutePath(), outPath);
             mic1.loadProgram(outPath);

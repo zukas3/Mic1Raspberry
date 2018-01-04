@@ -26,7 +26,7 @@
 * 
 *    http://www.gnu.org/copyleft/gpl.html
 * 
-*/ 
+*/
 
 /**
 *
@@ -47,11 +47,13 @@ public class ThreadWrapper extends Thread {
   public void run() {
     while (sim.run) {
       try{
-      sleep(1);
+      sleep(5); //We use 5 miliseconds instead of 1, because on stronger devices it just works a bit tad too fast
       }
       catch(Exception e) {}
       sim.cycle();
     }
+
+    ServerManager.main.SendStatusMessage("MIC-1 has stopped");
     sim.stop();
   }
 }
