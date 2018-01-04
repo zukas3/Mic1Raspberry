@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class ServerClient extends JFrame implements ActionListener
+public class ConnectionUI extends JFrame implements ActionListener
 {
     JRadioButton client, server;
     JTextField ip, port;
     JLabel label;
     JButton co;
 
-    ServerClient()
+    ConnectionUI()
     {
         setTitle("Connection Window");
 
@@ -38,9 +38,8 @@ public class ServerClient extends JFrame implements ActionListener
         setSize(350,180);
         setVisible(true);
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\aurim\\Pictures\\MIF_zenklas_png.png");
-
-        setIconImage(icon);
+        //Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\aurim\\Pictures\\MIF_zenklas_png.png");
+        //setIconImage(icon);
     }
 
     public void Label(){
@@ -69,7 +68,7 @@ public class ServerClient extends JFrame implements ActionListener
     public void IpPort()
     {
         ToggleGroup group = new ToggleGroup();
-        ip = new JTextField("Ip...");
+        ip = new JTextField("IP Address");
         ip.setBounds(30, 80, 90, 30);
         ip.addFocusListener(new FocusListener() {
             @Override
@@ -81,20 +80,20 @@ public class ServerClient extends JFrame implements ActionListener
             public void focusLost(FocusEvent e) {
                 if (ip.getText().equals(""))
                 {
-                    ip.setText("Ip...");
+                    ip.setText("IP Address");
                 }
 
             }
         });
 
-        port = new JTextField("Port num.");
+        port = new JTextField("Port");
         port.setBounds(140,80, 60, 30);
         port.addFocusListener(new FocusListener() {
             @Override
             public void focusLost(FocusEvent e) {
                 if (port.getText().equals(""))
                 {
-                    port.setText("Port num.");
+                    port.setText("Port");
                 }
             }
             @Override

@@ -2,6 +2,12 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+
+/**
+ *  File manager that was supposed to handle multiple programs and storage of them
+ *  Might be revisited in the future
+ */
+
 public class FileManager
 {
     File[] files;

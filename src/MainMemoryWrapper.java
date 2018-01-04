@@ -30,7 +30,7 @@
 
 /**
  * Main memory wrapper customized to work with customized wrapper
- * sends information to server class on what to send
+ * sends information to server class
  *
 */
 public class MainMemoryWrapper implements Mic1Constants {

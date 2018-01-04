@@ -36,7 +36,7 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
 
 
         getContentPane().setLayout(null);
-        getContentPane().setBackground(new Color(119,136,153));
+        //getContentPane().setBackground(new Color(119,136,153));
         setResizable(false);
         setSize(400, 330);
         setVisible(true);
@@ -59,9 +59,6 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
         b1.setVisible(true);
     }
 
-
-
-
     public void TextField()
     {
         t1= new JTextArea();
@@ -74,6 +71,7 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
                 System.out.println(e.getKeyCode());
                 if (e.getKeyCode() <= 32 || e.getKeyCode() ==127)
                 {
+
                 }
                 else {
                     try {
@@ -128,7 +126,8 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
                 if(s.endsWith(".jas") || s.endsWith(".ijvm"))
                 {
                     files.setText(s);
-                    try {
+                    try
+                    {
                         ClientManager.main.SendFile(s);
                     } catch (IOException ee) { ee.printStackTrace(); }
                 }
