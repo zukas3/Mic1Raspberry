@@ -13,7 +13,8 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
 
     JTextArea t1, t2;
     JTextArea files, statusBar;
-    JButton b,b1, conn;
+    JButton b1;
+    JScrollPane sInput, sOutput;
 
     WindowUI()
     {
@@ -28,13 +29,12 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
 
         add(b1);
 
-        add(t2);
-        add(t1);
         add(files);
         add(statusBar);
         files.setVisible(true);
-
-
+        getContentPane().add(sInput);
+        getContentPane().add(sOutput);
+        
         getContentPane().setLayout(null);
         getContentPane().setBackground(new Color(119,136,153));
         setResizable(false);
@@ -65,7 +65,11 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
     public void TextField()
     {
         t1= new JTextArea();
-        t1.setBounds(30,180,150,60);
+        t1.setEditable(true);
+        sInput = new JScrollPane(t1);
+        sInput.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        sInput.setBounds(30,160,155,80);
+
         t1.setLineWrap(true);
         t1.addKeyListener( new KeyAdapter()
         {
@@ -87,7 +91,9 @@ public class WindowUI extends JFrame implements ActionListener, Runnable
 
 
         t2 = new JTextArea();
-        t2.setBounds(200,180,150,60);
+        sOutput = new JScrollPane(t2);
+        sOutput.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        sOutput.setBounds(200,160,155,80);
         t2.setEditable(false);
         t2.setLineWrap(true);
     }
