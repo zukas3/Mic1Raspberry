@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.ParseException;
 
 public class ConnectionUI extends JFrame implements ActionListener
 {
@@ -118,9 +119,15 @@ public class ConnectionUI extends JFrame implements ActionListener
 
                 if (e.getSource() == co)
                 {
-                    setVisible(false);
-                    int p = Integer.parseInt(port.getText());
-                    Main.InitializeServer(p);
+                    try {
+                        int p = Integer.parseInt(port.getText());
+                        this.dispose();
+                        Main.InitializeServer(p);
+                    }
+                    catch (NumberFormatException e1)
+                    {
+                        JOptionPane.showMessageDialog(this, "Port is not valid");
+                    }
                 }
             }
             if (client.isSelected())
@@ -131,9 +138,22 @@ public class ConnectionUI extends JFrame implements ActionListener
                 if (e.getSource() == co)
                 {
                     String s = ip.getText();
-                    int p = Integer.parseInt(port.getText());
-                    this.dispose();
-                    Main.InitializeClient(s, p);
+                    if(Utility.validIP(s))
+                    {
+                        try {
+                            int p = Integer.parseInt(port.getText());
+                            this.dispose();
+                            Main.InitializeClient(s,p);
+                        }
+                        catch (NumberFormatException e1)
+                        {
+                            JOptionPane.showMessageDialog(this, "Port is not valid");
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "IP is not valid");
+                    }
                 }
             }
 
