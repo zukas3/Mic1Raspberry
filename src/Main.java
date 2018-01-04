@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.Scanner;
-import javax.swing.*;
 
 public class Main {
 
@@ -75,7 +74,7 @@ public class Main {
 
     public static void CreateIntroUI()
     {
-        ServerClient serverClient = new ServerClient();
+        ConnectionUI connectionUI = new ConnectionUI();
     }
 
     public static void CreateMainUI()
